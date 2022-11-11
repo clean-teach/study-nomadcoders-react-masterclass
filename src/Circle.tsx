@@ -1,20 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface CircleProps {
-    bgColor: string
+interface ContainerProps {
+    bgColor: string;
+    borderColor: string;
 }
 
-const Container = styled.div<CircleProps>`
+const Container = styled.div<ContainerProps>`
     width: 200px;
     height: 200px;
     border-radius: 100%;
-    background-color: ${props => props.bgColor}
+    background-color: ${props => props.bgColor};
+    border: 1px solie ${props => props.borderColor};
 `;
 
-function Circle({bgColor}: CircleProps) {
+interface CircleProps {
+    bgColor: string;
+    borderColor?: string;
+    text?: string;
+}
+
+function Circle({bgColor, borderColor, text = 'default text'}: CircleProps) {
     return (
-        <Container bgColor={bgColor} />
+        <Container bgColor={bgColor} borderColor={borderColor ?? bgColor} >
+            {text}
+        </Container>
     );
 }
 

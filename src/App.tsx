@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import Router from "./Router";
+import { createGlobalStyle } from 'styled-components';
+import Router from './Router';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
@@ -33,10 +33,11 @@ footer, header, hgroup, main, menu, nav, section {
     display: none;
 }
 body {
-  line-height: 1;
+  line-height: 1.2;
   font-family: 'Quicksand', sans-serif;
-  background-color: ${props => props.theme.bgColor};
-  color: ${props => props.theme.textColor};
+  font-weight: 300;
+  background-color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
 }
 menu, ol, ul {
   list-style: none;
@@ -63,7 +64,6 @@ a {
 `;
 
 function App() {
-
   return (
     <>
       <GlobalStyle />

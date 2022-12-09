@@ -24,28 +24,29 @@ function Chart({ coinId }: IChartProps) {
       refetchInterval: 10000,
     },
   );
+  const series = [
+    {
+      data: data?.map((price) => ({
+        x: new Date(price.time_open),
+        y: [price.open, price.high, price.low, price.close],
+      })),
+    },
+  ];
+
   return (
     <div>
       {isLoading ? (
         'Loading Chart...'
       ) : (
         <ApexChart
-          type="line"
-          series={[
-            {
-              name: 'Close Price',
-              data: data?.map((price) => Number(price.close)) as number[],
-            },
-            {
-              name: 'Open Price',
-              data: data?.map((price) => Number(price.open)) as number[],
-            },
-          ]}
+          type="candlestick"
+          series={series as unknown as number[]}
           options={{
             theme: {
               mode: 'dark',
             },
             chart: {
+              type: 'candlestick',
               height: 300,
               width: 500,
               toolbar: {
@@ -54,25 +55,14 @@ function Chart({ coinId }: IChartProps) {
               background: 'transparent',
             },
             grid: { show: false },
-            stroke: {
-              curve: 'smooth',
-              width: 4,
+            xaxis: {
+              type: 'datetime',
             },
             yaxis: {
-              show: false,
+              tooltip: {
+                enabled: true,
+              },
             },
-            xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
-              labels: { show: false },
-              type: 'datetime',
-              categories: data?.map((price) => price.time_close),
-            },
-            fill: {
-              type: 'gradient',
-              gradient: { gradientToColors: ['#0be881'], stops: [0, 100] },
-            },
-            colors: ['#0fbcf9'],
             tooltip: {
               y: {
                 formatter: (value) => `$${value.toFixed(2)}`,

@@ -1,6 +1,8 @@
-import { createGlobalStyle } from 'styled-components';
+import { useState, useEffect } from 'react';
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Router from './Router';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { darkTheme, lightTheme } from './theme';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
@@ -64,12 +66,47 @@ a {
 }
 `;
 
+const BtnTheme = styled.button`
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 100;
+  background-color: ${(props) => props.theme.textColor};
+  color: ${(props) => props.theme.bgColor};
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);
+    transition: 0.2s;
+  }
+`;
+
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const onDarkModeChange = () => {
+    setDarkMode(!darkMode);
+    window.localStorage.setItem('darkMode', String(!darkMode));
+  };
+
+  useEffect(() => {
+    window.localStorage.getItem('darkMode') === String(true)
+      ? setDarkMode(true)
+      : setDarkMode(false);
+  }, []);
+
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+        <GlobalStyle />
+        <BtnTheme onClick={onDarkModeChange}>
+          {darkMode ? 'Light Mode' : 'Dark Mode'}
+        </BtnTheme>
+        <Router />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
     </>
   );
 }

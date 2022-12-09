@@ -19,6 +19,7 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 const Header = styled.header`
+  position: relative;
   height: 15vh;
   display: flex;
   justify-content: center;
@@ -73,6 +74,21 @@ const Tab = styled.span<{ isActive: boolean }>`
   a {
     padding: 7px 0px;
     display: block;
+  }
+`;
+const BtnBack = styled.button`
+  position: absolute;
+  left: 0;
+  background: none;
+  color: ${(props) => props.theme.accentColor};
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    text-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);
+    transition: 0.2s;
   }
 `;
 
@@ -163,6 +179,9 @@ function Coin() {
           </title>
         </Helmet>
         <Header>
+          <BtnBack>
+            <Link to="/">&larr;</Link>
+          </BtnBack>
           <Title>
             {state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
           </Title>
@@ -212,7 +231,7 @@ function Coin() {
 
             <Switch>
               <Route path={`/:coinId/price`}>
-                <Price />
+                <Price tickersData={tickersData} />
               </Route>
               <Route path={`/:coinId/chart`}>
                 <Chart coinId={coinId} />

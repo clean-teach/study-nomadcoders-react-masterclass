@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { fetchCoins } from '../api';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -58,34 +59,39 @@ function Coins() {
   const { isLoading, data } = useQuery<ICoins[]>('allCoins', fetchCoins);
 
   return (
-    <Container>
-      <Header>
-        <Title>Coins</Title>
-      </Header>
-      {isLoading ? (
-        <Loader>Loading...</Loader>
-      ) : (
-        <CoinsList>
-          {data?.slice(0, 20).map((coin) => (
-            <Coin key={coin.id}>
-              <Link
-                to={{
-                  pathname: `/${coin.id}`,
-                  state: {
-                    name: coin.name,
-                  },
-                }}
-              >
-                <Img
-                  src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
-                />
-                {coin.name} &rarr;
-              </Link>
-            </Coin>
-          ))}
-        </CoinsList>
-      )}
-    </Container>
+    <HelmetProvider>
+      <Container>
+        <Helmet>
+          <title>코인</title>
+        </Helmet>
+        <Header>
+          <Title>Coins</Title>
+        </Header>
+        {isLoading ? (
+          <Loader>Loading...</Loader>
+        ) : (
+          <CoinsList>
+            {data?.slice(0, 20).map((coin) => (
+              <Coin key={coin.id}>
+                <Link
+                  to={{
+                    pathname: `/${coin.id}`,
+                    state: {
+                      name: coin.name,
+                    },
+                  }}
+                >
+                  <Img
+                    src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                  />
+                  {coin.name} &rarr;
+                </Link>
+              </Coin>
+            ))}
+          </CoinsList>
+        )}
+      </Container>
+    </HelmetProvider>
   );
 }
 

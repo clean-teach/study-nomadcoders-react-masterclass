@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import { fetchCoin } from '../api';
+import { fetchCoins } from '../api';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -56,7 +55,7 @@ interface ICoins {
 }
 
 function Coins() {
-  const { isLoading, data } = useQuery<ICoins[]>('allCoins', fetchCoin);
+  const { isLoading, data } = useQuery<ICoins[]>('allCoins', fetchCoins);
 
   return (
     <Container>

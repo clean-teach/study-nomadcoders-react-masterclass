@@ -3,6 +3,7 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Router from './Router';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { darkTheme, lightTheme } from './theme';
+import { createContext } from 'vm';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
@@ -104,7 +105,7 @@ function App() {
         <BtnTheme onClick={onDarkModeChange}>
           {darkMode ? 'Light Mode' : 'Dark Mode'}
         </BtnTheme>
-        <Router />
+        <Router darkMode={darkMode} />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </>

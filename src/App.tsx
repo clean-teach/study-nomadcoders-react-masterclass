@@ -3,6 +3,8 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Router from './Router';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { darkTheme, lightTheme } from './theme';
+import { useRecoilValue } from 'recoil';
+import { isDarkAtom } from './atoms';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
@@ -66,24 +68,45 @@ a {
 }
 `;
 
-function App() {
-  const [isDark, setIsDark] = useState(false);
-  const onDarkModeChange = () => {
-    setIsDark((current) => !current);
-    window.localStorage.setItem('isDark', String(!isDark));
-  };
+const BtnTheme = styled.button`
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 100;
+  background-color: ${(props) => props.theme.textColor};
+  color: ${(props) => props.theme.bgColor};
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);
+    transition: 0.2s;
+  }
+`;
 
-  useEffect(() => {
-    window.localStorage.getItem('isDark') === String(true)
-      ? setIsDark(true)
-      : setIsDark(false);
-  }, []);
+function App() {
+  const isDark = useRecoilValue(isDarkAtom);
+  // const onDarkModeChange = () => {
+  //   setIsDark((current) => !current);
+  //   window.localStorage.setItem('isDark', String(!isDark));
+  // };
+
+  // useEffect(() => {
+  //   window.localStorage.getItem('isDark') === String(true)
+  //     ? setIsDark(true)
+  //     : setIsDark(false);
+  // }, []);
 
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
-        <Router isDark={isDark} onDarkModeChange={onDarkModeChange} />
+        {/* <BtnTheme onClick={onDarkModeChange}>
+          {isDark ? 'Light Mode' : 'Dark Mode'}
+        </BtnTheme> */}
+        <Router />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </>

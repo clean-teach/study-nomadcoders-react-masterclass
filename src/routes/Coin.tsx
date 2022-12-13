@@ -92,24 +92,6 @@ const BtnBack = styled.button`
   }
 `;
 
-const BtnTheme = styled.button`
-  position: fixed;
-  top: 2rem;
-  left: 2rem;
-  z-index: 100;
-  background-color: ${(props) => props.theme.textColor};
-  color: ${(props) => props.theme.bgColor};
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 1rem;
-  font-size: 1.25rem;
-  cursor: pointer;
-  &:hover {
-    box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);
-    transition: 0.2s;
-  }
-`;
-
 interface RouteParams {
   coinId: string;
 }
@@ -171,12 +153,9 @@ interface IPriceData {
   };
 }
 
-interface IProps {
-  isDark: boolean;
-  onDarkModeChange: () => void;
-}
+interface IProps {}
 
-function Coin({ isDark, onDarkModeChange }: IProps) {
+function Coin({}: IProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch('/:coinId/price');
@@ -195,9 +174,6 @@ function Coin({ isDark, onDarkModeChange }: IProps) {
 
   return (
     <HelmetProvider>
-      <BtnTheme onClick={onDarkModeChange}>
-        {isDark ? 'Light Mode' : 'Dark Mode'}
-      </BtnTheme>
       <Container>
         <Helmet>
           <title>
@@ -260,7 +236,7 @@ function Coin({ isDark, onDarkModeChange }: IProps) {
                 <Price tickersData={tickersData} />
               </Route>
               <Route path={`/:coinId/chart`}>
-                <Chart coinId={coinId} isDark={isDark} />
+                <Chart coinId={coinId} />
               </Route>
             </Switch>
           </>

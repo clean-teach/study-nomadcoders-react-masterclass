@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Router from './Router';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { darkTheme, lightTheme } from './theme';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isDarkAtom } from './atoms';
 
 const GlobalStyle = createGlobalStyle`
@@ -88,24 +88,25 @@ const BtnTheme = styled.button`
 
 function App() {
   const isDark = useRecoilValue(isDarkAtom);
-  // const onDarkModeChange = () => {
-  //   setIsDark((current) => !current);
-  //   window.localStorage.setItem('isDark', String(!isDark));
-  // };
+  const setDarkFn = useSetRecoilState(isDarkAtom);
+  const onDarkModeChange = () => {
+    setDarkFn((current) => !current);
+    window.localStorage.setItem('isDark', String(!isDark));
+  };
 
-  // useEffect(() => {
-  //   window.localStorage.getItem('isDark') === String(true)
-  //     ? setIsDark(true)
-  //     : setIsDark(false);
-  // }, []);
+  useEffect(() => {
+    window.localStorage.getItem('isDark') === String(true)
+      ? setDarkFn(true)
+      : setDarkFn(false);
+  }, [setDarkFn]);
 
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
-        {/* <BtnTheme onClick={onDarkModeChange}>
+        <BtnTheme onClick={onDarkModeChange}>
           {isDark ? 'Light Mode' : 'Dark Mode'}
-        </BtnTheme> */}
+        </BtnTheme>
         <Router />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>

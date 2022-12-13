@@ -154,10 +154,10 @@ interface IPriceData {
 }
 
 interface IProps {
-  darkMode: boolean;
+  isDark: boolean;
 }
 
-function Coin({ darkMode }: IProps) {
+function Coin({ isDark }: IProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch('/:coinId/price');
@@ -220,7 +220,7 @@ function Coin({ darkMode }: IProps) {
               </OverviewItem>
               <OverviewItem>
                 <span>Price:</span>
-                <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
+                <span>${tickersData?.quotes?.USD?.price.toFixed(3)}</span>
               </OverviewItem>
             </Overview>
 
@@ -238,7 +238,7 @@ function Coin({ darkMode }: IProps) {
                 <Price tickersData={tickersData} />
               </Route>
               <Route path={`/:coinId/chart`}>
-                <Chart coinId={coinId} darkMode={darkMode} />
+                <Chart coinId={coinId} isDark={isDark} />
               </Route>
             </Switch>
           </>

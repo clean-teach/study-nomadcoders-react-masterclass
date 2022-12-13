@@ -3,15 +3,15 @@ import Coin from './routes/Coin';
 import Coins from './routes/Coins';
 
 interface IProps {
-  darkMode: boolean;
+  isDark: boolean;
 }
 
-function Router({ darkMode }: IProps) {
+function Router({ isDark }: IProps) {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
         <Route path="/:coinId">
-          <Coin darkMode={darkMode} />
+          <Coin isDark={isDark} />
         </Route>
         <Route path="/">
           <Coins />

@@ -3,7 +3,6 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Router from './Router';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { darkTheme, lightTheme } from './theme';
-import { createContext } from 'vm';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
@@ -86,26 +85,26 @@ const BtnTheme = styled.button`
 `;
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const onDarkModeChange = () => {
-    setDarkMode(!darkMode);
-    window.localStorage.setItem('darkMode', String(!darkMode));
+    setIsDark((current) => !current);
+    window.localStorage.setItem('isDark', String(!isDark));
   };
 
   useEffect(() => {
-    window.localStorage.getItem('darkMode') === String(true)
-      ? setDarkMode(true)
-      : setDarkMode(false);
+    window.localStorage.getItem('isDark') === String(true)
+      ? setIsDark(true)
+      : setIsDark(false);
   }, []);
 
   return (
     <>
-      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
         <BtnTheme onClick={onDarkModeChange}>
-          {darkMode ? 'Light Mode' : 'Dark Mode'}
+          {isDark ? 'Light Mode' : 'Dark Mode'}
         </BtnTheme>
-        <Router darkMode={darkMode} />
+        <Router isDark={isDark} />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </>

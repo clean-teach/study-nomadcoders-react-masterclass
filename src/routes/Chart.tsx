@@ -4,7 +4,7 @@ import ApexChart from 'react-apexcharts';
 
 interface IChartProps {
   coinId: string;
-  darkMode: boolean;
+  isDark: boolean;
 }
 interface IHistorical {
   time_open: number;
@@ -17,7 +17,7 @@ interface IHistorical {
   market_cap: number;
 }
 
-function Chart({ coinId, darkMode }: IChartProps) {
+function Chart({ coinId, isDark }: IChartProps) {
   const { isLoading, data } = useQuery<IHistorical[]>(
     ['ohlcv', coinId],
     () => fetchCoinHistory(coinId),
@@ -44,7 +44,7 @@ function Chart({ coinId, darkMode }: IChartProps) {
           series={series as unknown as number[]}
           options={{
             theme: {
-              mode: darkMode ? 'dark' : 'light',
+              mode: isDark ? 'dark' : 'light',
             },
             chart: {
               type: 'candlestick',
